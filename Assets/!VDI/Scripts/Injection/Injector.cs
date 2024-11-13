@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -56,8 +58,6 @@ namespace VDI
                 var value = _container.Resolve(fieldType);
 
                 field.SetValue(obj, value);
-
-                Debug.Log($"Inject field type : {fieldType} {value}");
             }
         }
 
@@ -71,7 +71,8 @@ namespace VDI
                 var attribute = method.GetCustomAttribute<InjectAttribute>();
                 if (attribute == null) continue;
 
-                Debug.Log($"Start inject in {method.Name}");
+                //TODO generic методы, override и virtual методы 
+
 
                 var parameters = method.GetParameters();
                 var values = new object[parameters.Length];
@@ -82,8 +83,46 @@ namespace VDI
                 }
 
                 method.Invoke(obj, values);
-                Debug.Log($"Inject in {method.Name} Count parameters: {parameters.Length}");
             }
+        }
+
+        public object CreateInstance(Type type)
+        {
+            var constructors = type.GetConstructors(DefaultBindingFlags).ToList();
+
+            constructors = constructors.OrderByDescending(x => x.GetParameters().Length).ToList();
+            foreach (var constructor in constructors)
+            {
+                var parameters = constructor.GetParameters().ToList();
+
+                if (TryGetParameterValues(parameters, out var values))
+                {
+                    var instance = constructor.Invoke(values);
+                    InjectMembers(instance);
+                    return instance;
+                }
+            }
+
+            throw new Exception("Constructor not found");
+        }
+
+        private bool TryGetParameterValues(List<ParameterInfo> parameters, out object[] values)
+        {
+            values = new object[parameters.Count];
+
+            foreach (var parameter in parameters)
+            {
+                if (_container.TryResolve(parameter.ParameterType, out var value))
+                {
+                    values[parameter.Position] = value;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -8,6 +8,8 @@ namespace VDI
     {
         private readonly Dictionary<Type, Registration> _registrations = new();
 
+        #region RegisterInstance
+
         public void RegisterInstance<T>(T instance)
         {
             if (_registrations.ContainsKey(instance.GetType()))
@@ -21,38 +23,63 @@ namespace VDI
             Debug.Log($"Registering instance of type {instance.GetType()}");
         }
 
+        #endregion
+
+        #region RegisterType
+
+        public void RegisterType<T>()
+        {
+            RegisterType(typeof(T));
+        }
+
+        public void RegisterType(Type type)
+        {
+            if (_registrations.ContainsKey(type))
+            {
+                throw new ArgumentException($"Type {type} is already registered ");
+            }
+
+            var registration = new ConstructorRegistration(this, type);
+            _registrations.Add(type, registration);
+            Debug.Log($"Registering type {type}");
+        }
+
+        #endregion
+
+        #region Resolve
+
         public object Resolve(Type type)
         {
-            if (_registrations.TryGetValue(type, out var registration))
-            {
-                return registration.Resolve();
-            }
-            else
-            {
-                throw new ArgumentException($"No registration for type {type}");
-            }
+            return _registrations[type].Resolve();
         }
 
         public T Resolve<T>()
         {
             return (T)Resolve(typeof(T));
         }
-    }
 
-    public abstract class Registration
-    {
-        public abstract object Resolve();
-    }
+        #endregion
 
-    public class SingleRegistration : Registration
-    {
-        private readonly object _instance;
+        #region TryResolve
 
-        public SingleRegistration(object instance)
+        public bool TryResolve(Type type, out object instance)
         {
-            _instance = instance;
+            instance = null;
+            if (_registrations.TryGetValue(type, out var registration))
+            {
+                instance = registration.Resolve();
+                return true;
+            }
+
+            return false;
         }
 
-        public override object Resolve() => _instance;
+
+        public bool TryResolve<T>(out object instance)
+        {
+            return TryResolve(typeof(T), out instance);
+        }
+
+        #endregion
     }
 }
