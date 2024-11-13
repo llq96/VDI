@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace VDI
 {
-    public class Injector
+    internal class Injector
     {
         private const BindingFlags DefaultBindingFlags =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;

@@ -6,7 +6,14 @@ namespace VDI
 {
     public class DIContainer
     {
+        internal DIContainer ParentContainer { get; private set; }
+
         private readonly Dictionary<Type, Registration> _registrations = new();
+
+        public DIContainer(DIContainer parentContainer)
+        {
+            ParentContainer = parentContainer;
+        }
 
         #region RegisterInstance
 
@@ -50,7 +57,12 @@ namespace VDI
 
         public object Resolve(Type type)
         {
-            return _registrations[type].Resolve();
+            if (TryResolve(type, out var instance))
+            {
+                return instance;
+            }
+
+            throw new Exception($"Could not resolve type {type}");
         }
 
         public T Resolve<T>()
@@ -69,6 +81,11 @@ namespace VDI
             {
                 instance = registration.Resolve();
                 return true;
+            }
+
+            if (ParentContainer != null)
+            {
+                return ParentContainer.TryResolve(type, out instance);
             }
 
             return false;

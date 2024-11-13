@@ -4,23 +4,26 @@ using UnityEngine;
 
 namespace VDI
 {
-    public class Context : MonoBehaviour
+    public abstract class Context : MonoBehaviour
     {
-        protected DIContainer Container { get; } = new();
-        protected Injector Injector { get; private set; }
+        internal DIContainer DIContainer { get; private set; }
+        internal Injector Injector { get; private set; }
 
         [SerializeField] private List<MonoInstaller> _monoInstallers;
 
         public virtual void Awake()
         {
-            Injector = new Injector(Container);
+            DIContainer = CreateContainer();
+            Injector = new Injector(DIContainer);
 
             InstallMonoInstallers();
         }
 
+        protected abstract DIContainer CreateContainer();
+
         private void InstallMonoInstallers()
         {
-            _monoInstallers.ForEach(x => x.Bind(Container));
+            _monoInstallers.ForEach(x => x.Bind(DIContainer));
         }
     }
 }

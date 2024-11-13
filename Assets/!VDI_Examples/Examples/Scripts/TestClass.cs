@@ -6,29 +6,9 @@ namespace VDI_Examples
     public class TestClass : MonoBehaviour
     {
         [Inject]
-        private void SomeInjectMethod(SharpClass sharpClass)
+        private void SomeInjectMethod(float projectContexValue)
         {
-            Debug.Log($"{nameof(SomeInjectMethod)} {sharpClass.ToString()}");
+            Debug.Log($"{nameof(projectContexValue)} {projectContexValue}");
         }
-
-
-        // [Inject] private TestClass2 _testClass2;
-        //
-        // private void Start()
-        // {
-        //     Debug.Log(_testClass2);
-        // }
-        //
-        // [Inject]
-        // private void SomeInjectMethod(TestClass2 testClass2)
-        // {
-        //     Debug.Log($"{nameof(SomeInjectMethod)} {testClass2}");
-        // }
-
-        // [Inject]
-        // private void WrongInjectMethod(TestClass2 testClass2, int someInt)
-        // {
-        //     Debug.Log($"{nameof(SomeInjectMethod)} {testClass2}");
-        // }
     }
 }

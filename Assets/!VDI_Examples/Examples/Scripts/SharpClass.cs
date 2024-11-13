@@ -18,15 +18,5 @@ namespace VDI_Examples
             Debug.Log($"TestClass2 from field{_testClass2}");
             Debug.Log($"{nameof(SomeInjectMethod)} {testClass2}");
         }
-
-        // private SharpClass(TestClass2 testClass2)
-        // {
-        //     Debug.Log($"TestClass2 {testClass2}");
-        // }
-        //
-        // private SharpClass(TestClass2 testClass2, int intValue)
-        // {
-        //     Debug.Log($"TestClass2 {testClass2} intValue {intValue}");
-        // }
     }
 }

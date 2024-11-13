@@ -8,5 +8,10 @@ namespace VDI
 
             Injector.InjectCurrentScene();
         }
+
+        protected override DIContainer CreateContainer()
+        {
+            return new DIContainer(ProjectContext.Instance.DIContainer);
+        }
     }
 }
