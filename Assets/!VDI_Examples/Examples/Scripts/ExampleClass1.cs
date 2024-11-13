@@ -6,9 +6,9 @@ namespace VDI_Examples
     public class ExampleClass1 : MonoBehaviour
     {
         [Inject]
-        private void SomeInjectMethod(float projectContexValue)
+        private void SomeInjectMethod(float projectContextValue)
         {
-            Debug.Log($"{nameof(projectContexValue)} {projectContexValue}");
+            Debug.Log($"{nameof(projectContextValue)} {projectContextValue}");
         }
     }
 }

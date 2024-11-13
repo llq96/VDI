@@ -1,3 +1,6 @@
+using System.Linq;
+using UnityEngine.SceneManagement;
+
 namespace VDI
 {
     public class SceneContext : Context
@@ -6,7 +9,13 @@ namespace VDI
         {
             base.Awake();
 
-            Injector.InjectCurrentScene();
+            InjectCurrentScene();
+        }
+
+        private void InjectCurrentScene()
+        {
+            var objects = SceneManager.GetActiveScene().GetRootGameObjects().ToList();
+            objects.ForEach(Injector.InjectGameObjectRecursively);
         }
 
         protected override DIContainer CreateContainer()

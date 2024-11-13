@@ -7,24 +7,16 @@ using UnityEngine.SceneManagement;
 
 namespace VDI
 {
-    public class Injector
+    internal class Injector
     {
         private const BindingFlags DefaultBindingFlags =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
-
-        private DIContainer _container;
+        private readonly DIContainer _container;
 
         public Injector(DIContainer container)
         {
             _container = container;
-        }
-
-        public void InjectCurrentScene()
-        {
-            var objects = SceneManager.GetActiveScene().GetRootGameObjects().ToList();
-
-            objects.ForEach(InjectGameObjectRecursively);
         }
 
         public void InjectGameObjectRecursively(GameObject gameObject)
@@ -38,9 +30,12 @@ namespace VDI
             }
         }
 
+        #region InjectMembers
+
         public void InjectMembers(object obj)
         {
             InjectFields(obj);
+            InjectProperties(obj);
             InjectMethods(obj);
         }
 
@@ -53,14 +48,39 @@ namespace VDI
                 var attribute = field.GetCustomAttribute<InjectAttribute>();
                 if (attribute == null) continue;
 
-                var fieldType = field.FieldType;
+                var valueType = field.FieldType;
 
-                var value = _container.Resolve(fieldType);
+                var value = _container.Resolve(valueType);
 
                 field.SetValue(obj, value);
             }
         }
 
+        private void InjectProperties(object obj)
+        {
+            var type = obj.GetType();
+            var properties = type.GetProperties(DefaultBindingFlags);
+            foreach (var property in properties)
+            {
+                var attribute = property.GetCustomAttribute<InjectAttribute>();
+                if (attribute == null) continue;
+
+                var valueType = property.PropertyType;
+                var value = _container.Resolve(valueType);
+
+                if (property.CanWrite)
+                {
+                    property.SetValue(obj, value);
+                }
+                else
+                {
+                    var fields = type.GetFields(DefaultBindingFlags);
+                    var field = fields.First(x =>
+                        x.Name.Contains($"<{property.Name}>") && x.Name.Contains("BackingField"));
+                    field.SetValue(obj, value);
+                }
+            }
+        }
 
         private void InjectMethods(object obj)
         {
@@ -73,18 +93,17 @@ namespace VDI
 
                 //TODO generic методы, override и virtual методы 
 
+                var parameters = method.GetParameters().ToList();
 
-                var parameters = method.GetParameters();
-                var values = new object[parameters.Length];
-
-                foreach (var parameter in parameters)
-                {
-                    values[parameter.Position] = _container.Resolve(parameter.ParameterType);
-                }
+                TryGetParameterValues(parameters, out var values);
 
                 method.Invoke(obj, values);
             }
         }
+
+        #endregion
+
+        #region CreateInstance
 
         public object CreateInstance(Type type)
         {
@@ -124,5 +143,7 @@ namespace VDI
 
             return true;
         }
+
+        #endregion
     }
 }

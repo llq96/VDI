@@ -9,14 +9,12 @@ namespace VDI_Tests
         public void InjectInField()
         {
             var container = new DIContainer();
-            var injector = new Injector(container);
-
             container.RegisterInstance(42);
 
             var instance = new ClassWithInjectedField();
             Assert.AreEqual(0, instance.InjectedField);
 
-            injector.InjectMembers(instance);
+            container.InjectMembers(instance);
 
             Assert.AreEqual(42, instance.InjectedField);
         }

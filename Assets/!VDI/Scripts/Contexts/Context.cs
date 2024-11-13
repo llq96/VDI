@@ -19,7 +19,10 @@ namespace VDI
             InstallMonoInstallers();
         }
 
-        protected abstract DIContainer CreateContainer();
+        protected virtual DIContainer CreateContainer()
+        {
+            return new DIContainer();
+        }
 
         private void InstallMonoInstallers()
         {

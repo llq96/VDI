@@ -7,12 +7,6 @@ namespace VDI
         private static ProjectContext _projectContext;
         internal static ProjectContext Instance => GetProjectContext();
 
-
-        protected override DIContainer CreateContainer()
-        {
-            return new DIContainer(null);
-        }
-
         private static ProjectContext GetProjectContext()
         {
             if (_projectContext == null)
