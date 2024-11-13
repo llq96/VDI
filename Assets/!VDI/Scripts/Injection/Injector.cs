@@ -95,9 +95,14 @@ namespace VDI
 
                 var parameters = method.GetParameters().ToList();
 
-                TryGetParameterValues(parameters, out var values);
-
-                method.Invoke(obj, values);
+                if (TryGetParameterValues(parameters, out var values))
+                {
+                    method.Invoke(obj, values);
+                }
+                else
+                {
+                    throw new Exception($"Can not inject {method.Name} method");
+                }
             }
         }
 

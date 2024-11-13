@@ -2,9 +2,7 @@ using System;
 
 namespace VDI
 {
-    [AttributeUsage(AttributeTargets.Method |
-                    AttributeTargets.Property |
-                    AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
     public class InjectAttribute : Attribute
     {
     }

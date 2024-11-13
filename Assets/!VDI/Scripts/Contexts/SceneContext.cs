@@ -20,7 +20,7 @@ namespace VDI
 
         protected override DIContainer CreateContainer()
         {
-            return new DIContainer(ProjectContext.Instance.DIContainer);
+            return new DIContainer(ProjectContext.Instance?.DIContainer);
         }
     }
 }

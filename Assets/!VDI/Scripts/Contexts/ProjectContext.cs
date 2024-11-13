@@ -5,18 +5,23 @@ namespace VDI
     public class ProjectContext : Context
     {
         private static ProjectContext _projectContext;
-        internal static ProjectContext Instance => GetProjectContext();
 
-        private static ProjectContext GetProjectContext()
+        internal static ProjectContext Instance
         {
-            if (_projectContext == null)
+            get
             {
-                var _projectContextPrefab = Resources.Load<ProjectContext>("ProjectContext");
-                _projectContext = Instantiate(_projectContextPrefab);
-                DontDestroyOnLoad(_projectContext.gameObject);
-            }
+                if (_projectContext == null)
+                {
+                    var _projectContextPrefab = Resources.Load<ProjectContext>("ProjectContext");
+                    if (_projectContextPrefab != null)
+                    {
+                        _projectContext = Instantiate(_projectContextPrefab);
+                        DontDestroyOnLoad(_projectContext.gameObject);
+                    }
+                }
 
-            return _projectContext;
+                return _projectContext;
+            }
         }
     }
 }
