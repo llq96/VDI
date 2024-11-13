@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace VDI
 {
-    internal class Injector
+    public class Injector
     {
         private const BindingFlags DefaultBindingFlags =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
@@ -38,7 +38,7 @@ namespace VDI
             }
         }
 
-        private void InjectMembers(object obj)
+        public void InjectMembers(object obj)
         {
             InjectFields(obj);
             InjectMethods(obj);
