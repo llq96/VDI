@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VDI
+namespace VDI_Examples
 {
     public class TestClass2 : MonoBehaviour
     {

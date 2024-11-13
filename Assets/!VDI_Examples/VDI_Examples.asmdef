@@ -1,0 +1,16 @@
+{
+    "name": "VDI_Examples",
+    "rootNamespace": "VDI_Examples",
+    "references": [
+        "GUID:0673f1dac3adb0949bd8e9492a3cbcc4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
