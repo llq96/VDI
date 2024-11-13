@@ -3,7 +3,7 @@ using VDI;
 
 namespace VDI_Examples
 {
-    public class TestClass : MonoBehaviour
+    public class ExampleClass1 : MonoBehaviour
     {
         [Inject]
         private void SomeInjectMethod(float projectContexValue)
