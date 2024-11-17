@@ -14,7 +14,7 @@ namespace VDI_Tests
             var instance = new ClassWithInjectedMethod();
             Assert.AreEqual(0, instance.InjectedValue);
 
-            container.InjectMembers(instance);
+            container.RegisterInstance(instance);
 
             Assert.AreEqual(42, instance.InjectedValue);
         }

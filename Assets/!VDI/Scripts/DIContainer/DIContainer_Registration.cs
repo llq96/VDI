@@ -24,7 +24,8 @@ namespace VDI
         {
             ThrowIfContainsRegistration(typeof(T));
 
-            var registration = new SingleRegistration(instance);
+            var registration = new InstanceRegistration(this, instance);
+            InjectMembers(instance);
 
             Register(typeof(T), registration);
         }
@@ -43,7 +44,7 @@ namespace VDI
             ThrowIfContainsRegistration(type);
 
             var registration = new ConstructorRegistration(this, type);
-
+            
             Register(type, registration);
         }
 

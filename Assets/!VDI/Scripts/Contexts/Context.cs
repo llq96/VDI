@@ -6,17 +6,30 @@ namespace VDI
 {
     public abstract class Context : MonoBehaviour
     {
-        internal DIContainer DIContainer { get; private set; }
+        internal DIContainer Container { get; private set; }
         internal Injector Injector { get; private set; }
 
         [SerializeField] private List<MonoInstaller> _monoInstallers;
 
-        public virtual void Awake()
+
+        protected virtual void Awake()
         {
-            DIContainer = CreateContainer();
-            Injector = new Injector(DIContainer);
+            Container = CreateContainer();
+            Injector = new Injector(Container);
 
             InstallMonoInstallers();
+
+            Container.Initializables.ForEach(x => x.Initialize());
+        }
+
+        protected virtual void Start()
+        {
+            Container.Startables.ForEach(x => x.Start());
+        }
+
+        protected virtual void Update()
+        {
+            Container.Updatables.ForEach(x => x.Update());
         }
 
         protected virtual DIContainer CreateContainer()
@@ -26,7 +39,7 @@ namespace VDI
 
         private void InstallMonoInstallers()
         {
-            _monoInstallers.ForEach(x => x.Bind(DIContainer));
+            _monoInstallers.ForEach(x => x.Bind(Container));
         }
     }
 }

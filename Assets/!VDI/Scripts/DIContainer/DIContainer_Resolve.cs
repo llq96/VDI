@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 namespace VDI
 {
@@ -29,7 +28,6 @@ namespace VDI
 
         public bool TryResolve(Type type, out object instance)
         {
-            instance = null;
             if (_registrations.TryGetValue(type, out var registration))
             {
                 instance = registration.Resolve();
@@ -41,6 +39,7 @@ namespace VDI
                 return ParentContainer.TryResolve(type, out instance);
             }
 
+            instance = null;
             return false;
         }
 

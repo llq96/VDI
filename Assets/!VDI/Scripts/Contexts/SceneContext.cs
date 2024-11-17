@@ -5,7 +5,7 @@ namespace VDI
 {
     public class SceneContext : Context
     {
-        public override void Awake()
+        protected override void Awake()
         {
             base.Awake();
 
@@ -20,7 +20,7 @@ namespace VDI
 
         protected override DIContainer CreateContainer()
         {
-            return new DIContainer(ProjectContext.Instance?.DIContainer);
+            return new DIContainer(ProjectContext.Instance?.Container);
         }
     }
 }

@@ -2,28 +2,29 @@
 
 namespace VDI
 {
-    public class ConstructorRegistration : Registration
+    internal class ConstructorRegistration : Registration
     {
-        private readonly Injector _injector;
         private readonly Type _type;
 
-        private object _instance;
 
-
-        public ConstructorRegistration(DIContainer container, Type type)
+        public ConstructorRegistration(DIContainer container, Type type) : base(container)
         {
-            _injector = new Injector(container);
             _type = type;
+
+            if (typeof(IInitializable).IsAssignableFrom(_type) || typeof(IStartable).IsAssignableFrom(_type))
+            {
+                Resolve(); //force self resolve
+            }
         }
 
-        public override object Resolve()
+        protected override object ResolveObject()
         {
-            return _instance ??= CreateInstance();
+            return Instance ??= CreateInstance();
         }
 
         private object CreateInstance()
         {
-            return _injector.CreateInstance(_type);
+            return Container.CreateInstance(_type);
         }
     }
 }

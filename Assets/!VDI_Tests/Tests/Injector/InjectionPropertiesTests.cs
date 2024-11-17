@@ -14,7 +14,7 @@ namespace VDI_Tests
             var instance = new ClassWithInjectedProperty();
             Assert.AreEqual(0, instance.InjectedProperty);
 
-            container.InjectMembers(instance);
+            container.RegisterInstance(instance);
 
             Assert.AreEqual(42, instance.InjectedProperty);
         }
@@ -28,7 +28,7 @@ namespace VDI_Tests
             var instance = new ClassWithInjectedGetOnlyProperty();
             Assert.AreEqual(0, instance.InjectedProperty);
 
-            container.InjectMembers(instance);
+            container.RegisterInstance(instance);
 
             Assert.AreEqual(42, instance.InjectedProperty);
         }
