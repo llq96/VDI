@@ -6,15 +6,13 @@ namespace VDI_Tests
     public class InjectionFieldsTests
     {
         [Test]
-        public void InjectInField()
+        public void Resolve_WithRegisterValue_InjectField()
         {
             var container = new DIContainer();
             container.RegisterInstance(42);
+            container.RegisterType<ClassWithInjectedField>();
 
-            var instance = new ClassWithInjectedField();
-            Assert.AreEqual(0, instance.InjectedField);
-
-            container.RegisterInstance(instance);
+            var instance = container.Resolve<ClassWithInjectedField>();
 
             Assert.AreEqual(42, instance.InjectedField);
         }

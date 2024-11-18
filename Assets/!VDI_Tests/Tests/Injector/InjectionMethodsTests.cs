@@ -6,15 +6,13 @@ namespace VDI_Tests
     public class InjectionMethodsTests
     {
         [Test]
-        public void InjectInMethod()
+        public void Resolve_WithRegisterValue_InvokeInjectMethod()
         {
             var container = new DIContainer();
             container.RegisterInstance(42);
+            container.RegisterType<ClassWithInjectedMethod>();
 
-            var instance = new ClassWithInjectedMethod();
-            Assert.AreEqual(0, instance.InjectedValue);
-
-            container.RegisterInstance(instance);
+            var instance = container.Resolve<ClassWithInjectedMethod>();
 
             Assert.AreEqual(42, instance.InjectedValue);
         }

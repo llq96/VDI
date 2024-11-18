@@ -6,7 +6,7 @@ namespace VDI_Tests
     public class InjectionInRegisterInstancesTests
     {
         [Test]
-        public void InjectInField()
+        public void InjectAfterRegistration()
         {
             var container = new DIContainer();
             var obj1 = new Type1();

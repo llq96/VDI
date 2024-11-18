@@ -6,29 +6,25 @@ namespace VDI_Tests
     public class InjectionPropertiesTests
     {
         [Test]
-        public void InjectInProperty()
+        public void Resolve_WithRegisterValue_InjectProperty()
         {
             var container = new DIContainer();
             container.RegisterInstance(42);
+            container.RegisterType<ClassWithInjectedProperty>();
 
-            var instance = new ClassWithInjectedProperty();
-            Assert.AreEqual(0, instance.InjectedProperty);
-
-            container.RegisterInstance(instance);
+            var instance = container.Resolve<ClassWithInjectedProperty>();
 
             Assert.AreEqual(42, instance.InjectedProperty);
         }
 
         [Test]
-        public void InjectInReadOnlyProperty()
+        public void Resolve_WithRegisterValue_InjectReadOnlyProperty()
         {
             var container = new DIContainer();
             container.RegisterInstance(42);
+            container.RegisterType<ClassWithInjectedGetOnlyProperty>();
 
-            var instance = new ClassWithInjectedGetOnlyProperty();
-            Assert.AreEqual(0, instance.InjectedProperty);
-
-            container.RegisterInstance(instance);
+            var instance = container.Resolve<ClassWithInjectedGetOnlyProperty>();
 
             Assert.AreEqual(42, instance.InjectedProperty);
         }
