@@ -4,10 +4,11 @@ namespace VDI
 {
     public partial class DIContainer
     {
-        private void Register(Type type, Registration registration)
+        private Registration InternalRegister(Type type, Registration registration)
         {
             _registrations.Add(type, registration);
             // Debug.Log($"Register {type} as {registration.GetType()} ");
+            return registration;
         }
 
         private void ThrowIfContainsRegistration(Type type)
@@ -20,32 +21,32 @@ namespace VDI
 
         #region RegisterInstance
 
-        public void RegisterInstance<T>(T instance)
+        public IRegistration RegisterInstance(object instance)
         {
-            ThrowIfContainsRegistration(typeof(T));
+            var type = instance.GetType();
+            ThrowIfContainsRegistration(type);
 
             var registration = new InstanceRegistration(this, instance);
-            InjectMembers(instance);
 
-            Register(typeof(T), registration);
+            return InternalRegister(type, registration);
         }
 
         #endregion
 
         #region RegisterType
 
-        public void RegisterType<T>()
+        public IRegistration RegisterType<T>()
         {
-            RegisterType(typeof(T));
+            return RegisterType(typeof(T));
         }
 
-        public void RegisterType(Type type)
+        public IRegistration RegisterType(Type type)
         {
             ThrowIfContainsRegistration(type);
 
             var registration = new ConstructorRegistration(this, type);
-            
-            Register(type, registration);
+
+            return InternalRegister(type, registration);
         }
 
         #endregion

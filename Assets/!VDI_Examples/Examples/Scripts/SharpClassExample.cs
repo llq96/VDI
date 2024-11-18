@@ -6,6 +6,7 @@ namespace VDI_Examples
     public class SharpClassExample
     {
         [Inject] private ExampleClass2 _exampleClass2;
+        [Inject] private int _intValue;
 
         public SharpClassExample()
         {
@@ -17,6 +18,7 @@ namespace VDI_Examples
         {
             Debug.Log($"TestClass2 from field{_exampleClass2}");
             Debug.Log($"{nameof(SomeInjectMethod)} {exampleClass2}");
+            Debug.Log($"{nameof(_intValue)} {_intValue}");
         }
     }
 }

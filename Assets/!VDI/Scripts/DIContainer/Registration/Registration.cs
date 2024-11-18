@@ -4,18 +4,21 @@ using UnityEngine;
 
 namespace VDI
 {
-    internal abstract class Registration
+    internal abstract class Registration : IRegistration
     {
-        protected readonly DIContainer Container;
+        protected readonly DIContainer ParentContainer;
+        protected readonly DIContainer SelfContainer;
 
         public object Instance { get; private protected set; }
 
         public bool IsInjected { get; private set; }
         public bool IsResolved { get; private set; }
 
-        protected Registration(DIContainer container)
+
+        protected Registration(DIContainer parentContainer)
         {
-            Container = container;
+            ParentContainer = parentContainer;
+            SelfContainer = new DIContainer(ParentContainer);
         }
 
         public object Resolve()
@@ -29,9 +32,9 @@ namespace VDI
                 if (Instance is MonoBehaviour && (Instance is IStartable || Instance is IUpdatable))
                     throw new Exception("IStartable and IUpdatable interfaces are not supported for MonoBehaviours.");
 
-                TryAddInList(Container.Initializables);
-                TryAddInList(Container.Startables);
-                TryAddInList(Container.Updatables);
+                TryAddInList(ParentContainer.Initializables);
+                TryAddInList(ParentContainer.Startables);
+                TryAddInList(ParentContainer.Updatables);
             }
 
             return Instance;
@@ -51,9 +54,15 @@ namespace VDI
         {
             if (!IsInjected)
             {
-                Container.InjectMembers(Instance);
+                SelfContainer.InjectMembers(Instance);
                 IsInjected = true;
             }
+        }
+
+        public IRegistration WithArgument(object argument)
+        {
+            SelfContainer.RegisterInstance(argument);
+            return this;
         }
     }
 }

@@ -11,14 +11,16 @@ namespace VDI_Examples
         public override void Bind(DIContainer container)
         {
             container.RegisterInstance(_exampleClass2);
-            container.RegisterInstance(345);
+            // container.RegisterInstance(345);
 
-            container.RegisterType<SharpClassExample>();
+            container.RegisterType<SharpClassExample>().WithArgument(456);
 
             // container.RegisterInstance(new InterfacesExample());
-            container.RegisterType<InterfacesExample>();
+            // container.RegisterType<InterfacesExample>();
 
-            container.RegisterInstance(_componentWithInterfacesExample);
+            // container.RegisterInstance(_componentWithInterfacesExample);
+
+            container.Resolve<SharpClassExample>();
         }
     }
 }

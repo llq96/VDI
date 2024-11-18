@@ -4,7 +4,7 @@
     {
         private readonly object _instance;
 
-        public InstanceRegistration(DIContainer container, object instance) : base(container)
+        public InstanceRegistration(DIContainer parentContainer, object instance) : base(parentContainer)
         {
             _instance = instance;
 

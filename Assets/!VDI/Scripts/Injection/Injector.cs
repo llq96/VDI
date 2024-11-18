@@ -120,9 +120,7 @@ namespace VDI
 
                 if (TryGetParameterValues(parameters, out var values))
                 {
-                    var instance = constructor.Invoke(values);
-                    InjectMembers(instance);
-                    return instance;
+                    return constructor.Invoke(values);
                 }
             }
 

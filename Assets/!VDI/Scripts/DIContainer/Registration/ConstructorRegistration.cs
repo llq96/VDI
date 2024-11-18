@@ -7,7 +7,7 @@ namespace VDI
         private readonly Type _type;
 
 
-        public ConstructorRegistration(DIContainer container, Type type) : base(container)
+        public ConstructorRegistration(DIContainer parentContainer, Type type) : base(parentContainer)
         {
             _type = type;
 
@@ -24,7 +24,7 @@ namespace VDI
 
         private object CreateInstance()
         {
-            return Container.CreateInstance(_type);
+            return SelfContainer.CreateInstance(_type);
         }
     }
 }
