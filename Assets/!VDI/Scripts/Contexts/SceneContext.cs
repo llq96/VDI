@@ -15,7 +15,7 @@ namespace VDI
         private void InjectCurrentScene()
         {
             var objects = SceneManager.GetActiveScene().GetRootGameObjects().ToList();
-            objects.ForEach(Injector.InjectGameObjectRecursively);
+            objects.ForEach((obj) => Container.InjectGameObjectRecursively(obj));
         }
 
         protected override DIContainer CreateContainer()

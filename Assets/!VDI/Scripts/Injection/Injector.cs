@@ -18,8 +18,13 @@ namespace VDI
             _container = container;
         }
 
-        public void InjectGameObjectRecursively(GameObject gameObject)
+        public void InjectGameObjectRecursively(GameObject gameObject, bool isIgnoreGameObjectContexts = true)
         {
+            if (isIgnoreGameObjectContexts)
+            {
+                if (gameObject.TryGetComponent<GameObjectContext>(out _)) return;
+            }
+
             var components = gameObject.GetComponents<Component>().ToList();
             components.ForEach(InjectMembers);
 

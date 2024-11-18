@@ -6,8 +6,8 @@ namespace VDI
 {
     internal abstract class Registration : IRegistration
     {
-        protected readonly DIContainer ParentContainer;
-        protected readonly DIContainer SelfContainer;
+        internal DIContainer ParentContainer { get; private set; }
+        internal DIContainer SelfContainer { get; private set; }
 
         public object Instance { get; private protected set; }
 

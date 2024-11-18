@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using UnityEngine;
 
 namespace VDI
 {
@@ -50,5 +50,10 @@ namespace VDI
         }
 
         #endregion
+
+        public PrefabFactory<TPrefab> ResolveFactoryFor<TPrefab>() where TPrefab : Component
+        {
+            return Resolve<PrefabFactory<TPrefab>>();
+        }
     }
 }

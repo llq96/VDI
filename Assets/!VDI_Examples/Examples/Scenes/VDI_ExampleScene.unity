@@ -404,6 +404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _exampleClass2: {fileID: 1299335912}
   _componentWithInterfacesExample: {fileID: 2106198424}
+  _prefab: {fileID: 4193466629979219510, guid: 0608ba8f96d08894db3ac7b412420b8a, type: 3}
 --- !u!1 &2106198423
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,8 +453,8 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 2017172080}
   - {fileID: 900988344}
   - {fileID: 785360569}
   - {fileID: 1299335913}
-  - {fileID: 2017172080}
   - {fileID: 2106198425}

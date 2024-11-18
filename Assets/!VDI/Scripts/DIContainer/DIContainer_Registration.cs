@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace VDI
 {
@@ -47,6 +48,22 @@ namespace VDI
             var registration = new ConstructorRegistration(this, type);
 
             return InternalRegister(type, registration);
+        }
+
+        #endregion
+
+        #region RegisterPrefab
+
+        public IRegistration RegisterPrefabFactory<TPrefab>(TPrefab prefab)
+            where TPrefab : Component
+        {
+            var factory = new PrefabFactory<TPrefab>(prefab);
+
+            var registration = RegisterInstance(factory);
+
+            factory.Registration = registration as Registration;
+
+            return registration;
         }
 
         #endregion

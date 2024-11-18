@@ -10,9 +10,9 @@ namespace VDI
             Injector.InjectMembers(target);
         }
 
-        internal void InjectGameObjectRecursively(GameObject target)
+        internal void InjectGameObjectRecursively(GameObject target, bool isIgnoreGameObjectContexts = true)
         {
-            Injector.InjectGameObjectRecursively(target);
+            Injector.InjectGameObjectRecursively(target, isIgnoreGameObjectContexts);
         }
 
         internal object CreateInstance(Type type)
