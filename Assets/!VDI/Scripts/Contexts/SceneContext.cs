@@ -3,12 +3,11 @@ using UnityEngine.SceneManagement;
 
 namespace VDI
 {
-    public class SceneContext : Context
+    public class SceneContext : ContextWithInstallers
     {
-        protected override void Awake()
+        protected override void Inject()
         {
-            base.Awake();
-
+            base.Inject();
             InjectCurrentScene();
         }
 

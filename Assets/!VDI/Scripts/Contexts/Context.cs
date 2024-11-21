@@ -8,16 +8,23 @@ namespace VDI
     {
         internal DIContainer Container { get; private set; }
 
-        [SerializeField] private List<MonoInstaller> _monoInstallers;
-
 
         protected virtual void Awake()
         {
             Container = CreateContainer();
 
-            InstallMonoInstallers();
+            Bind();
+            Inject();
 
             Container.Initializables.ForEach(x => x.Initialize());
+        }
+
+        protected virtual void Bind()
+        {
+        }
+
+        protected virtual void Inject()
+        {
         }
 
         protected virtual void Start()
@@ -33,11 +40,6 @@ namespace VDI
         protected virtual DIContainer CreateContainer()
         {
             return new DIContainer();
-        }
-
-        private void InstallMonoInstallers()
-        {
-            _monoInstallers?.ForEach(x => x.Bind(Container));
         }
     }
 }

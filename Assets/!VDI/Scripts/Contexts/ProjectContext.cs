@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VDI
 {
-    public class ProjectContext : Context
+    public class ProjectContext : ContextWithInstallers
     {
         private static ProjectContext _projectContext;
 
