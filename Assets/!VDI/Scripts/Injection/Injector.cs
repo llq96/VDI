@@ -144,7 +144,14 @@ namespace VDI
                 }
                 else
                 {
-                    return false;
+                    if (parameter.HasDefaultValue)
+                    {
+                        values[parameter.Position] = parameter.DefaultValue;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
 
